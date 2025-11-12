@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://g53yqrehgll5"]
+
+[ext_resource type="PackedScene" uid="uid://2majhmbpqo4f" path="res://Scenes/earth.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://b7852mmtj15tg" path="res://Scenes/moon.tscn" id="2_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://5cmfgcb7d5ov" path="res://Scenes/trail.tscn" id="3_8gbba"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Earth" parent="." instance=ExtResource("1_jjgbg")]
+position = Vector2(1, 4)
+mass = 1000.0
+
+[node name="Moon" parent="." node_paths=PackedStringArray("central_body") instance=ExtResource("2_bo1nx")]
+position = Vector2(-671, 0)
+mass = 10.0
+central_body = NodePath("../Earth")
+
+[node name="Trail" parent="Moon" instance=ExtResource("3_8gbba")]
+points = PackedVector2Array(0, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-11, 2)
+zoom = Vector2(0.2, 0.2)
