@@ -5,19 +5,31 @@
 [ext_resource type="PackedScene" uid="uid://5cmfgcb7d5ov" path="res://Scenes/trail.tscn" id="3_8gbba"]
 
 [node name="Main" type="Node2D"]
+scale = Vector2(2.5, 2.5)
 
 [node name="Earth" parent="." instance=ExtResource("1_jjgbg")]
 position = Vector2(1, 4)
 mass = 1000.0
 
-[node name="Moon" parent="." node_paths=PackedStringArray("central_body") instance=ExtResource("2_bo1nx")]
-position = Vector2(-671, 0)
-mass = 10.0
-central_body = NodePath("../Earth")
-
-[node name="Trail" parent="Moon" instance=ExtResource("3_8gbba")]
-points = PackedVector2Array(0, 0)
-
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-11, 2)
-zoom = Vector2(0.2, 0.2)
+position = Vector2(-2.7999876, 0.3999996)
+scale = Vector2(0.99999976, 0.99999976)
+zoom = Vector2(0.5, 0.5)
+limit_enabled = false
+
+[node name="Moon" parent="." node_paths=PackedStringArray("central_body") instance=ExtResource("2_bo1nx")]
+position = Vector2(-95.2, -0.4000001)
+scale = Vector2(0.99999976, 0.99999976)
+mass = 300.0
+central_body = NodePath("../Earth")
+orbit_eccentricity = 0.055
+
+[node name="Trails" type="Node2D" parent="."]
+
+[node name="Trail" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
+position = Vector2(-331.59995, -11.199988)
+scale = Vector2(0.99999976, 0.99999976)
+points = PackedVector2Array(331.6, 10.799991)
+width = 1.0
+body = NodePath("../../Moon")
+max_points = 300

@@ -1,25 +1,20 @@
 extends RigidBody2D
 @export var central_body: RigidBody2D
+#variable of the centrail body.
 @export var grav_cons: float = 50000.0
-@export var trail_duration: float = 10.0
-@export var trail_max_points: int = 200
+@export var orbit_eccentricity: float = 1.2
 
-@onready var trail: Line2D = $Trail
 
 func _ready():
-	if not trail:
-		print("Error, Add a line2d node as a child")
-		return
-		
-	trail.width = 2.0
-	trail.default_color = Color.WHITE
-	
 	if central_body:
+	#just a check if theres a central body
 		var orbital_radius = global_position.distance_to(central_body.global_position)
 		#getting the disntance from the body being orbitted
 		
 		var perfect_velocity = sqrt(grav_cons * central_body.mass / orbital_radius)
 		#formula to calculate the perfect velocity needed to have a stable orbit
+		
+		perfect_velocity *= (1 + orbit_eccentricity)
 		
 		var direction_to_center = global_position.direction_to(central_body.global_position)
 		
@@ -37,21 +32,13 @@ func _physics_process(_delta):
 	if not central_body:
 		return
 	
-	update_trail()
-		
 	var direction = central_body.global_position - global_position
 	#makes another vector that spans the space between the 2 points
 	
 	var distance = direction.length()
 	#gets the magnitude of the vector created. Getting the disntacne between the 2 vector
-	
-	#debug
-	print("Distance: %.2f" % (distance))
-	print("Moon mass: %.2f" % mass)
-	print("Earth mass: %.2f" % central_body.mass)
-	print("Current velocity: %.2f" % linear_velocity.length())
-	
-	if distance < 10:
+
+	if distance < 200:
 		print("TOO CLOSE!")
 		return
 
@@ -70,17 +57,9 @@ func _physics_process(_delta):
 	var gravitational_force = direction * force_magnitude
 	apply_central_force(gravitational_force)
 	#The centripetal force acting on the orbiting body
+	#
 	
-func update_trail():
-	if not trail:
-		return
-	trail.add_point(global_position)
-	#add the current position of the body to the trail
-	
-	var points_to_keep = int(trail_duration * 60)
-	if trail.get_point_count() > points_to_keep:
-		trail.remove_point(0)
-		
+
 	
 	
 	
