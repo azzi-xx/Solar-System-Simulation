@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://b77tv2uoagl0q" path="res://Scripts/trail.gd" id="1_ccptl"]
 
 [sub_resource type="Curve" id="Curve_ccptl"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.7991967, 1), -0.4619825, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.47389558, 0.23464167), 0.0, 0.0, 0, 0, Vector2(0.9156626, 1), -0.4619825, 0.0, 0, 0]
+point_count = 3
 
 [node name="Trail" type="Line2D"]
 width = 20.0
 width_curve = SubResource("Curve_ccptl")
 script = ExtResource("1_ccptl")
+max_points = 300

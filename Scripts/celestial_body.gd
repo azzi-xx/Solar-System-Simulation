@@ -3,12 +3,24 @@ class_name CelestialBody
 
 @export var orbit_eccentricity: float = 1.0
 @export var orbit_target_path: NodePath
+@export var is_sun := false
 
 func _ready():
 	GravityManager.register_body(self)
 	await get_tree().process_frame
 	setup_initial_orbit()
+	
+	if is_sun:
+		contact_monitor = true
+		max_contacts_reported = 10
+		body_entered.connect(_on_sun_body_entered)
 
+func _on_sun_body_entered(body):
+	if is_sun and body is CelestialBody and not body.is_sun:
+		print("SUN: Consumed ", body.name)
+		GravityManager.unregister_body(body)
+		body.queue_free()
+	
 func setup_initial_orbit():
 	var target = get_node_or_null(orbit_target_path)
 	

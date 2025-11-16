@@ -11218,12 +11218,12 @@ mass = 5000.0
 gravity_scale = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -1)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_188qd")
 animation = &"new_animation"
 autoplay = "new_animation"
 frame_progress = 0.40591982
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_ngbl3")

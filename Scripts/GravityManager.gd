@@ -18,6 +18,7 @@ func calculate_net_force_on(body):
 		if other_body != body and is_instance_valid(other_body):
 			total_force += calculate_gravitational_force(body, other_body)
 	return total_force
+	
 #Where every celestial body is compared to each other and for each one of those, adds a vector force
 #to the total force being applied to the body
 	
@@ -34,7 +35,7 @@ func calculate_gravitational_force(a, b) -> Vector2:
 
 #Implementing Newton's law of Universal Gravitation
 #F = G * (m1 * m2) / r^2
-#
+
 func get_center_of_mass() -> Vector2:
 	var total_mass = 0.0
 	var weighted_position = Vector2.ZERO
