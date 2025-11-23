@@ -11,17 +11,12 @@ extends CanvasLayer
 @onready var status_label: Label = $Control/VBoxContainer/StatusLabel
 
 var simulation_running := false
-var masses_visible := true  # Start with masses visible
+var masses_visible := true
 var celestial_bodies := []
 
 func _ready():
-	# Make sure UI processes even when scene is paused
-
-	
-	# Start with simulation paused
 	get_tree().paused = true
 	
-	# Connect signals
 	start_pause_button.pressed.connect(_on_start_pause_pressed)
 	reset_button.pressed.connect(_on_reset_pressed)
 	mass_toggle_button.pressed.connect(_on_mass_toggle_pressed)
@@ -30,7 +25,6 @@ func _ready():
 	randomize_masses_button.pressed.connect(_on_randomize_masses_pressed)
 	celestial_dropdown.item_selected.connect(_on_celestial_selected)
 	
-	# Initialize the UI with the correct state
 	update_ui()
 	refresh_celestial_list()
 
@@ -48,16 +42,13 @@ func _on_mass_toggle_pressed():
 	update_ui()
 
 func _on_change_mass_pressed():
-	# Refresh the list of celestial bodies
 	refresh_celestial_list()
 	
-	# Show the dropdown and input fields
 	celestial_dropdown.visible = true
 	mass_input.visible = true
 	apply_mass_button.visible = true
 
 func _on_apply_mass_pressed():
-	# Check if it's a valid integer
 	if celestial_dropdown.selected >= 0 and mass_input.text.is_valid_int():
 		var selected_index = celestial_dropdown.selected
 		var new_mass = int(mass_input.text)
@@ -66,21 +57,17 @@ func _on_apply_mass_pressed():
 			var body = celestial_bodies[selected_index]
 			body.mass = new_mass
 			
-			# Update the mass label if it exists
 			if body.has_method("update_mass_label"):
 				body.update_mass_label()
 			
 			print("Changed mass of ", body.name, " to ", new_mass)
-			
-			# Clear the input field
+
 			mass_input.text = ""
-			
-			# Hide the mass change UI
+
 			celestial_dropdown.visible = false
 			mass_input.visible = false
 			apply_mass_button.visible = false
-			
-			# Refresh the celestial list to show updated masses
+
 			refresh_celestial_list()
 		else:
 			status_label.text = "Error: Invalid body selection"
@@ -91,7 +78,6 @@ func _on_randomize_masses_pressed():
 	if get_tree().paused:
 		randomize_all_masses()
 		status_label.text = "Masses Randomized!"
-		# Clear the message after 2 seconds
 		await get_tree().create_timer(2.0).timeout
 		update_ui()
 	else:
@@ -124,23 +110,16 @@ func randomize_all_masses():
 	var bodies = get_tree().get_nodes_in_group("celestial_bodies")
 	
 	for body in bodies:
-		# Skip the sun
 		if body.is_sun:
 			continue
 			
-		# Generate a random integer mass between 10 and 5000
-		var new_mass = randi_range(10, 25000)
-		
-		# Apply the new mass
+		var new_mass = randi_range(1, 30000)
 		body.mass = new_mass
 		
-		# Update the mass label
 		if body.has_method("update_mass_label"):
 			body.update_mass_label()
 		
 		print("Randomized ", body.name, " mass to ", new_mass)
-	
-	# Refresh the dropdown list to show new masses
 	refresh_celestial_list()
 
 func update_ui():
@@ -151,7 +130,6 @@ func update_ui():
 		start_pause_button.text = "Start"
 		status_label.text = "Simulation Paused"
 	
-	# Update mass button text based on current state
 	if masses_visible:
 		mass_toggle_button.text = "Hide Masses"
 	else:

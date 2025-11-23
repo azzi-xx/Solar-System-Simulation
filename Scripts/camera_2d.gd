@@ -14,20 +14,16 @@ func _ready() -> void:
 	target_zoom = zoom.x
 
 func _input(event):
-	# Handle mouse drag panning - LEFT MOUSE ONLY
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:  # Camera uses left mouse
+		if event.button_index == MOUSE_BUTTON_LEFT: 
 			if event.pressed:
-				# Start dragging
 				is_dragging = true
 				drag_start_position = event.position
 				Input.set_default_cursor_shape(Input.CURSOR_DRAG)
 			else:
-				# Stop dragging
 				is_dragging = false
 				Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		
-		# Handle mouse wheel zoom
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			target_zoom -= zoom_speed * target_zoom
 			target_zoom = clamp(target_zoom, min_zoom, max_zoom)
@@ -36,13 +32,11 @@ func _input(event):
 			target_zoom = clamp(target_zoom, min_zoom, max_zoom)
 	
 	elif event is InputEventMouseMotion and is_dragging:
-		# Calculate drag offset and move camera
 		var drag_offset = (drag_start_position - event.position) * drag_sensitivity / zoom.x
 		position += drag_offset
 		drag_start_position = event.position
 
 func _process(delta: float) -> void:
-	# Handle smooth zoom
 	if smooth_zoom:
 		zoom = zoom.lerp(Vector2(target_zoom, target_zoom), 10 * delta)
 		

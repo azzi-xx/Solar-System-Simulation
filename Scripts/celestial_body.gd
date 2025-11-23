@@ -4,7 +4,7 @@ class_name CelestialBody
 @export var orbit_eccentricity: float = 1.0
 @export var orbit_target_path: NodePath
 @export var is_sun := false
-@export var label_offset := Vector2(0, 0)  # Position above the planet
+@export var label_offset := Vector2(0, 0)
 
 var mass_label: Label
 var camera: Camera2D
@@ -20,47 +20,38 @@ func _ready():
 		max_contacts_reported = 10
 		body_entered.connect(_on_sun_body_entered)
 	
-	# Find the camera
 	camera = get_viewport().get_camera_2d()
 	
 	create_mass_label()
-	# Immediately update the font scale after creating the label
 	update_font_scale()
 
 func create_mass_label():
 	mass_label = Label.new()
-	update_mass_label()  # Set the initial text
+	update_mass_label()
 	mass_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mass_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
-	# Use theme overrides for font properties
 	mass_label.add_theme_font_size_override("font_size", 16)
 	mass_label.add_theme_color_override("font_color", Color.WHITE)
 	
-	# Add outline for better readability
 	mass_label.add_theme_constant_override("outline_size", 2)
 	mass_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	
 	mass_label.position = label_offset
 	add_child(mass_label)
 
-# New method to update the mass label text
 func update_mass_label():
 	if mass_label:
 		mass_label.text = str(mass)
 
 func _process(_delta):
-	# Update label position to stay above the planet
 	if mass_label:
 		mass_label.position = label_offset
 		
-		# Counter-rotate the label to keep it upright
 		mass_label.rotation = -rotation
-		
-	# Update font scale in process as well to handle zoom changes
+
 	update_font_scale()
 
-# New function to handle font scaling
 func update_font_scale():
 	if mass_label and camera:
 		var zoom_factor = 1.0 / camera.zoom.x
@@ -70,7 +61,6 @@ func update_font_scale():
 func show_mass():
 	if mass_label:
 		mass_label.visible = true
-		# Update font scale when showing mass
 		update_font_scale()
 
 func hide_mass():
@@ -81,7 +71,6 @@ func toggle_mass_display():
 	if mass_label:
 		mass_label.visible = !mass_label.visible
 		if mass_label.visible:
-			# Update font scale when toggling mass on
 			update_font_scale()
 
 func _on_sun_body_entered(body):
