@@ -7177,7 +7177,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 30.0
+"speed": 24.0
 }]
 
 [node name="Mercury" type="RigidBody2D"]

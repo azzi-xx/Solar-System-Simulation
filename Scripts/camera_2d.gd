@@ -1,39 +1,50 @@
 extends Camera2D
 
-@export var pan_speed := 5000.0
 @export var zoom_speed := 0.1
 @export var min_zoom := 0.01
 @export var max_zoom := 5.0
 @export var smooth_zoom := true
+@export var drag_sensitivity := 1.0
 
 var target_zoom := 1.0
+var is_dragging := false
+var drag_start_position := Vector2.ZERO
 
 func _ready() -> void:
 	target_zoom = zoom.x
-	
-func _process(delta: float) -> void:
-	var velocity = Vector2.ZERO
-	
-	if Input.is_action_just_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_just_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_just_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_just_pressed("ui_up"):
-		velocity.y -= 1
 
-	if velocity != Vector2.ZERO:
-		position += velocity.normalized() * pan_speed * delta / zoom.x
+func _input(event):
+	# Handle mouse drag panning - LEFT MOUSE ONLY
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:  # Camera uses left mouse
+			if event.pressed:
+				# Start dragging
+				is_dragging = true
+				drag_start_position = event.position
+				Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+			else:
+				# Stop dragging
+				is_dragging = false
+				Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+		
+		# Handle mouse wheel zoom
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			target_zoom -= zoom_speed * target_zoom
+			target_zoom = clamp(target_zoom, min_zoom, max_zoom)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			target_zoom += zoom_speed * target_zoom
+			target_zoom = clamp(target_zoom, min_zoom, max_zoom)
+	
+	elif event is InputEventMouseMotion and is_dragging:
+		# Calculate drag offset and move camera
+		var drag_offset = (drag_start_position - event.position) * drag_sensitivity / zoom.x
+		position += drag_offset
+		drag_start_position = event.position
+
+func _process(delta: float) -> void:
+	# Handle smooth zoom
 	if smooth_zoom:
 		zoom = zoom.lerp(Vector2(target_zoom, target_zoom), 10 * delta)
 		
-#func _input(event):
-	#if event is InputEventMouseButton:
-		#if event.button_index == MOUSE_BUTTON_LEFT:
-			#target_zoom += zoom_speed
-		#if event.button_index == MOUSE_BUTTON_RIGHT:
-			#target_zoom -= zoom_speed
-			#
-		#target_zoom = clamp(target_zoom, min_zoom, max_zoom)
+
 		

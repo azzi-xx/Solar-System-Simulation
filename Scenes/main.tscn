@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://g53yqrehgll5"]
+[gd_scene load_steps=15 format=3 uid="uid://g53yqrehgll5"]
 
 [ext_resource type="PackedScene" uid="uid://2majhmbpqo4f" path="res://Scenes/earth.tscn" id="1_jjgbg"]
 [ext_resource type="Script" uid="uid://dk0kn2sik0pes" path="res://Scripts/GravityManager.gd" id="1_jjvhh"]
@@ -9,13 +9,18 @@
 [ext_resource type="Script" uid="uid://bepl4qs4xxl3d" path="res://Scripts/camera_2d.gd" id="4_344ge"]
 [ext_resource type="PackedScene" uid="uid://b3y5gfontu55y" path="res://Scenes/mercury.tscn" id="5_21xkr"]
 [ext_resource type="PackedScene" uid="uid://ciu4vii0u7v7g" path="res://Scenes/venus.tscn" id="6_6bp64"]
+[ext_resource type="PackedScene" uid="uid://nn8cwd638etn" path="res://Scenes/jupiter.tscn" id="9_d1ilt"]
+[ext_resource type="PackedScene" uid="uid://c8ssjaxx23aw5" path="res://Scenes/saturn.tscn" id="10_6iyac"]
+[ext_resource type="PackedScene" uid="uid://djg5ssunssrya" path="res://Scenes/ui.tscn" id="10_hptm8"]
+[ext_resource type="PackedScene" uid="uid://b47y3q881248g" path="res://Scenes/uranus.tscn" id="11_fdnlq"]
+[ext_resource type="PackedScene" uid="uid://ckwcx8tg7mpio" path="res://Scenes/Neptune.tscn" id="14_jkdf5"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jjvhh")
-grav_cons = 1.0
 
 [node name="Sun" parent="." instance=ExtResource("2_bo1nx")]
 mass = 1000000.0
+freeze_mode = 1
 script = ExtResource("2_jjvhh")
 is_sun = true
 
@@ -36,34 +41,80 @@ body = NodePath("../../Celestial Bodies/Earth")
 [node name="Mars" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
 body = NodePath("../../Celestial Bodies/Mars")
 
+[node name="Jupiter" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
+body = NodePath("../../Celestial Bodies/Jupiter")
+
+[node name="Saturn" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
+body = NodePath("../../Celestial Bodies/Saturn")
+
+[node name="Uranus" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
+body = NodePath("../../Celestial Bodies/Uranus")
+
+[node name="Neptune" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
+body = NodePath("../../Celestial Bodies/Neptune")
+
 [node name="Celestial Bodies" type="Node2D" parent="."]
 
 [node name="Earth" parent="Celestial Bodies" instance=ExtResource("1_jjgbg")]
-position = Vector2(-3580, -852)
-mass = 70000.0
+position = Vector2(-4556, 0)
+mass = 15.0
+freeze_mode = 1
 script = ExtResource("2_jjvhh")
 orbit_target_path = NodePath("../../Sun")
 
 [node name="Mercury" parent="Celestial Bodies" instance=ExtResource("5_21xkr")]
-position = Vector2(339, -2000)
+position = Vector2(-2220, 0)
+freeze_mode = 1
 script = ExtResource("2_jjvhh")
 orbit_target_path = NodePath("../../Sun")
 
 [node name="Venus" parent="Celestial Bodies" instance=ExtResource("6_6bp64")]
-position = Vector2(2810, -273.00012)
+position = Vector2(-3348, 0)
 rotation = 0.02378422
-mass = 400.0
+mass = 12.0
+freeze_mode = 1
 script = ExtResource("2_jjvhh")
 orbit_target_path = NodePath("../../Sun")
 
 [node name="Mars" parent="Celestial Bodies" instance=ExtResource("4_6bp64")]
-position = Vector2(-2181, -775)
-mass = 300.0
+position = Vector2(-5783, 0)
+mass = 2.0
+freeze_mode = 1
+script = ExtResource("2_jjvhh")
+orbit_target_path = NodePath("../../Sun")
+
+[node name="Jupiter" parent="Celestial Bodies" instance=ExtResource("9_d1ilt")]
+position = Vector2(-7132, 0)
+mass = 480.0
+script = ExtResource("2_jjvhh")
+orbit_target_path = NodePath("../../Sun")
+
+[node name="Saturn" parent="Celestial Bodies" instance=ExtResource("10_6iyac")]
+position = Vector2(-8885, 0)
+mass = 145.0
+script = ExtResource("2_jjvhh")
+orbit_target_path = NodePath("../../Sun")
+
+[node name="Uranus" parent="Celestial Bodies" instance=ExtResource("11_fdnlq")]
+position = Vector2(-10452, 0)
+mass = 22.0
+script = ExtResource("2_jjvhh")
+orbit_target_path = NodePath("../../Sun")
+
+[node name="Neptune" parent="Celestial Bodies" instance=ExtResource("14_jkdf5")]
+position = Vector2(-11590, 0)
+mass = 26.0
 script = ExtResource("2_jjvhh")
 orbit_target_path = NodePath("../../Sun")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.05, 0.05)
+process_mode = 3
+position = Vector2(-5831, 0)
+zoom = Vector2(0.08, 0.08)
 limit_enabled = false
 position_smoothing_enabled = true
 script = ExtResource("4_344ge")
+min_zoom = 0.03
+max_zoom = 2.0
+
+[node name="UI" parent="." instance=ExtResource("10_hptm8")]
