@@ -26,7 +26,3 @@ GravityManager="*res://Scripts/GravityManager.gd"
 2d/default_linear_damp=0.0
 2d/default_angular_damp=0.0
 2d/sleep_threshold_linear=0.001
-
-[rendering]
-
-renderer/rendering_method="mobile"

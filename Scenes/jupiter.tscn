@@ -7179,7 +7179,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w5lof"]
-radius = 258.0
+radius = 301.86917
 
 [node name="Jupiter" type="RigidBody2D"]
 

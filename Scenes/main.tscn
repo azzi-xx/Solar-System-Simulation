@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://g53yqrehgll5"]
+[gd_scene load_steps=17 format=3 uid="uid://g53yqrehgll5"]
 
 [ext_resource type="PackedScene" uid="uid://2majhmbpqo4f" path="res://Scenes/earth.tscn" id="1_jjgbg"]
 [ext_resource type="Script" uid="uid://dk0kn2sik0pes" path="res://Scripts/GravityManager.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://cppsfcwvep45l" path="res://Scenes/sun.tscn" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://cbmh4puyetp77" path="res://Scripts/celestial_body.gd" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://tmha5up6qrp8" path="res://Assets/Space Background.png" id="2_wsu2k"]
 [ext_resource type="PackedScene" uid="uid://5cmfgcb7d5ov" path="res://Scenes/trail.tscn" id="3_8gbba"]
 [ext_resource type="PackedScene" uid="uid://0dcga0ijjkmc" path="res://Scenes/mars.tscn" id="4_6bp64"]
 [ext_resource type="Script" uid="uid://bepl4qs4xxl3d" path="res://Scripts/camera_2d.gd" id="4_344ge"]
@@ -14,12 +15,21 @@
 [ext_resource type="PackedScene" uid="uid://djg5ssunssrya" path="res://Scenes/ui.tscn" id="10_hptm8"]
 [ext_resource type="PackedScene" uid="uid://b47y3q881248g" path="res://Scenes/uranus.tscn" id="11_fdnlq"]
 [ext_resource type="PackedScene" uid="uid://ckwcx8tg7mpio" path="res://Scenes/Neptune.tscn" id="14_jkdf5"]
+[ext_resource type="AudioStream" uid="uid://bqqgrpfx2sop1" path="res://Assets/Music.wav" id="16_k12tt"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jjvhh")
+grav_cons = 5000.0
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="SpaceBackground3" type="Sprite2D" parent="Background"]
+scale = Vector2(40, 40)
+texture = ExtResource("2_wsu2k")
+flip_h = true
 
 [node name="Sun" parent="." instance=ExtResource("2_bo1nx")]
-mass = 1000000.0
+mass = 500000.0
 freeze_mode = 1
 script = ExtResource("2_jjvhh")
 is_sun = true
@@ -31,6 +41,7 @@ body = NodePath("../../Sun")
 
 [node name="Mercury" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
 body = NodePath("../../Celestial Bodies/Mercury")
+max_points = 250
 
 [node name="Venus" parent="Trails" node_paths=PackedStringArray("body") instance=ExtResource("3_8gbba")]
 body = NodePath("../../Celestial Bodies/Venus")
@@ -118,3 +129,8 @@ min_zoom = 0.03
 max_zoom = 2.0
 
 [node name="UI" parent="." instance=ExtResource("10_hptm8")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_k12tt")
+volume_db = -20.0
+autoplay = true

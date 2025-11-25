@@ -113,7 +113,7 @@ func randomize_all_masses():
 		if body.is_sun:
 			continue
 			
-		var new_mass = randi_range(1, 30000)
+		var new_mass = randi_range(1, 20000)
 		body.mass = new_mass
 		
 		if body.has_method("update_mass_label"):

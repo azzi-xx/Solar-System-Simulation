@@ -6311,7 +6311,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g2483"]
-radius = 236.05296
+radius = 272.18375
 
 [node name="Saturn" type="RigidBody2D"]
 

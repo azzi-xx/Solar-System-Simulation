@@ -7,7 +7,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), -0.4619825, 0.0, 0, 0]
 point_count = 2
 
 [node name="Trail" type="Line2D"]
-width = 20.0
+width = 40.0
 width_curve = SubResource("Curve_ccptl")
 script = ExtResource("1_ccptl")
 max_points = 350
